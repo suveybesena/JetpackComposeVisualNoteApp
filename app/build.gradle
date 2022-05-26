@@ -1,8 +1,13 @@
 plugins {
-    id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id "androidx.navigation.safeargs.kotlin"
+    id 'kotlin-parcelize'
+    id 'dagger.hilt.android.plugin'
 }
-
+apply from: '../dependencies.gradle'
 android {
     compileSdk 32
 
@@ -47,16 +52,93 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
+
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
-    implementation 'androidx.activity:activity-compose:1.3.1'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
+    implementation 'androidx.activity:activity-compose:1.4.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+
+    implementation "androidx.compose.material:material-icons-core:$compose_version"
+    implementation "androidx.compose.material:material-icons-extended:$compose_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07"
+    implementation "androidx.navigation:navigation-compose:2.4.0-alpha08"
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.0-beta02"
+
+    implementation androidx.coreKtx
+    implementation androidx.appCompat
+    implementation androidx.constraintlayout
+    implementation androidx.legacySupport
+    implementation androidx.lifecycleLiveData
+    implementation androidx.lifecycleViewModel
+
+    //Splash Screen
+    implementation androidx.splashScreen
+
+    //Glide
+    implementation others.glide
+    annotationProcessor others.glideCompiler
+
+    // Android Test Implementations
+    androidTestImplementation androidTesting.androidTestJUnit
+    androidTestImplementation androidTesting.androidTestMockito
+    androidTestImplementation androidTesting.androidTestCoroutines
+    androidTestImplementation androidTesting.androidTestArchCore
+    androidTestImplementation androidTesting.androidTestTruth
+    androidTestImplementation androidTesting.androidTestExtJUnit
+    androidTestImplementation androidTesting.androidTestEspresso
+    androidTestImplementation androidTesting.androidTestMockitoCore
+    androidTestImplementation androidTesting.androidTestHilt
+    kaptAndroidTest androidTesting.androidTestHiltCompiler
+    debugImplementation androidTesting.androidTestDebugFragment
+    androidTestImplementation androidTesting.androidTestEspressContrib
+    androidTestImplementation androidTesting.androidTestNavigation
+
+    // TestImplementations
+    implementation testing.testCore
+    testImplementation testing.testJUnit
+    testImplementation testing.testHamcrest
+    testImplementation testing.testArchCore
+    testImplementation testing.testRobolectric
+    testImplementation testing.testCoroutines
+    testImplementation testing.testTruth
+    testImplementation testing.testMockito
+
+    // Material Design
+    implementation google.material
+
+    // Navigation Component
+    implementation androidx.navigationUi
+    implementation androidx.navigationFragment
+
+    // Room components
+    implementation androidx.roomDb
+    kapt androidx.kaptRoomDb
+    implementation androidx.roomKtx
+    androidTestImplementation androidTesting.adnroidTestRoom
+
+    // Lifecycle components
+    implementation androidx.lifecycleExt
+    implementation androidx.lifecycleExt
+    implementation androidx.lifecycleViewModel
+
+    // Coroutines
+    api kotlin.kotlinxCoroutinesCore
+    api kotlin.kotlinxCoroutinesAndroid
+
+    // Coil
+    implementation "io.coil-kt:coil-compose:1.3.2"
+
+    //Dagger - Hilt
+    implementation hilt.hiltAndroid
+    kapt hilt.kaptHiltAndroidCompiler
+    implementation hilt.hiltViewModel
+    kapt hilt.kaptHiltCompiler
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
 }
