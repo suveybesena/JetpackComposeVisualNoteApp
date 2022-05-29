@@ -6,16 +6,16 @@ import androidx.activity.compose.setContent
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import com.example.jetpackcomposevisualnoteapp.data.model.NoteModel
+import com.example.jetpackcomposevisualnoteapp.presentation.addnote.NoteAddScreen
 import com.example.jetpackcomposevisualnoteapp.presentation.edit.NoteEditScreen
 import com.example.jetpackcomposevisualnoteapp.presentation.notelist.NoteListScreen
 import com.example.jetpackcomposevisualnoteapp.ui.theme.JetpackComposeVisualNoteAppTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,16 +26,22 @@ class MainActivity : ComponentActivity() {
                     composable("note_list_screen") {
                         NoteListScreen(navController = navController)
                     }
-                    composable("note_edit_screen/{noteArg}", arguments = listOf(
-                        navArgument("noteArg") {
-                            type = NavType.ParcelableType(NoteModel::class.java)
-                        }
-                    )) {
-                        val noteArg = it.arguments?.getParcelable<NoteModel>("noteArg")
-                        if (noteArg != null) {
-                            NoteEditScreen(noteArg = noteArg, navController = navController)
-                        }
+                    composable("note_add_screen") {
+                        NoteAddScreen(navController = navController)
                     }
+                    composable("note_edit_screen") {
+                        NoteEditScreen(navController = navController)
+                    }
+                    //composable("note_edit_screen/{noteArg}", arguments = listOf(
+                    //    navArgument("noteArg") {
+                    //        type = NavType.ParcelableType(NoteModel::class.java)
+                    //    }
+                    //)) {
+                    // val noteArg = it.arguments?.getParcelable<NoteModel>("noteArg")
+                    //if (noteArg != null) {
+                    //    NoteEditScreen(noteArg = noteArg)
+                    //}
+                    //}
                 }
             }
         }
