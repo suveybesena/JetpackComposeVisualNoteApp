@@ -84,6 +84,8 @@ dependencies {
     //Glide
     implementation others.glide
     annotationProcessor others.glideCompiler
+    implementation "com.github.skydoves:landscapist-glide:1.5.2"
+
 
     // Android Test Implementations
     androidTestImplementation androidTesting.androidTestJUnit
