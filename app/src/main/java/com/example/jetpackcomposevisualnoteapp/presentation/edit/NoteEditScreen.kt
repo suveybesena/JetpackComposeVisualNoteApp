@@ -34,7 +34,7 @@ fun NoteEditScreen(
     ) {
         Column {
             Text(
-                "Add Notes", modifier = Modifier
+                "Edit Notes", modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 20.dp),
                 textAlign = TextAlign.Center,
