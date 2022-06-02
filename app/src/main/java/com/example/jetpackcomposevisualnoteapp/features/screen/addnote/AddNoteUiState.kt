@@ -1,4 +1,4 @@
-package com.example.jetpackcomposevisualnoteapp.presentation.addnote
+package com.example.jetpackcomposevisualnoteapp.features.screen.addnote
 
 data class AddNoteUiState(
     val isLoading: Boolean? = null,
