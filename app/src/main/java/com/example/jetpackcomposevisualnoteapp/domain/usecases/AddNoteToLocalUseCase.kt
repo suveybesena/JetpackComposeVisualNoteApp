@@ -15,7 +15,7 @@ class AddNoteToLocalUseCase @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
     suspend fun invoke(noteDetail: NoteModel) = flow {
-        emit(Resource.Loading)
+        emit(Resource.Loading(true))
         try {
             if (noteDetail.noteTitle.isNullOrBlank() || noteDetail.noteDesc.isNullOrBlank() || noteDetail.imageUrl.isNullOrBlank()) {
                 emit(Resource.Error(Constants.NULL_ERROR_MESSAGE))

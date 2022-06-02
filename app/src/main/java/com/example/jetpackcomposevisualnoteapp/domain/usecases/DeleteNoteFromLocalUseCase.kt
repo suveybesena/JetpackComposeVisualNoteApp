@@ -14,7 +14,7 @@ class DeleteNoteFromLocalUseCase @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
     fun invoke(noteDetail: NoteModel) = flow {
-        emit(Resource.Loading)
+        emit(Resource.Loading(true))
         try {
             val deleteNote = noteRepository.deleteNote(noteDetail)
             emit(Resource.Success(deleteNote))

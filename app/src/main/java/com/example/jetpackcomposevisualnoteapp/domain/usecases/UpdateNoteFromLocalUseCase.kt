@@ -14,7 +14,7 @@ class UpdateNoteFromLocalUseCase @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
     suspend fun invoke(noteDetail: NoteModel) = flow {
-        emit(Resource.Loading)
+        emit(Resource.Loading(true))
         try {
             val updateNote = noteRepository.updateNote(noteDetail)
             emit(Resource.Success(updateNote))
