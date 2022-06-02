@@ -1,4 +1,4 @@
-package com.example.jetpackcomposevisualnoteapp.presentation.addnote
+package com.example.jetpackcomposevisualnoteapp.features.screen.addnote
 
 import com.example.jetpackcomposevisualnoteapp.data.model.NoteModel
 
