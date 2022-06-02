@@ -1,4 +1,4 @@
-package com.example.jetpackcomposevisualnoteapp.presentation.edit
+package com.example.jetpackcomposevisualnoteapp.features.screen.editnote
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
