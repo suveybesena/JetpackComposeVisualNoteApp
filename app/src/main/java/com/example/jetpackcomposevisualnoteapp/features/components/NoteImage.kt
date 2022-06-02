@@ -13,7 +13,6 @@ import coil.compose.rememberImagePainter
 import coil.size.OriginalSize
 
 
-
 @OptIn(ExperimentalCoilApi::class)
 @Composable
 fun NoteImage(
