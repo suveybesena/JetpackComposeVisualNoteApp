@@ -1,4 +1,4 @@
-package com.example.jetpackcomposevisualnoteapp.presentation.notelist
+package com.example.jetpackcomposevisualnoteapp.features.screen.home
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -25,13 +25,13 @@ class NotesListViewModel @Inject constructor(private val getAllNotesFromLocalUse
         viewModelScope.launch {
             getAllNotesFromLocalUseCase.invoke().collect { resource ->
                 when (resource) {
+                    is Resource.Loading -> {
+                        _uiState.value = uiState.value.copy(isLoading = resource.booelan)
+                    }
                     is Resource.Success -> {
                         resource.data?.collect { list ->
                             _uiState.value = uiState.value.copy(notesList = list)
                         }
-                    }
-                    is Resource.Loading -> {
-                        _uiState.value = uiState.value.copy(isLoading = true)
                     }
                     is Resource.Error -> {
                         _uiState.value = uiState.value.copy(error = resource.message)
