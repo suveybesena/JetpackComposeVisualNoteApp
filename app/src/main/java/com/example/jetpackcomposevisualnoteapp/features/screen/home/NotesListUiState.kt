@@ -1,4 +1,4 @@
-package com.example.jetpackcomposevisualnoteapp.presentation.notelist
+package com.example.jetpackcomposevisualnoteapp.features.screen.home
 
 import com.example.jetpackcomposevisualnoteapp.data.model.NoteModel
 
