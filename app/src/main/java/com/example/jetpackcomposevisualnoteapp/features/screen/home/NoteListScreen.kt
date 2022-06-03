@@ -4,8 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExtendedFloatingActionButton
+import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -63,16 +65,18 @@ fun NoteListScreen(viewModel: NotesListViewModel = hiltViewModel(), navControlle
             }
 
         }
-        ExtendedFloatingActionButton(
-            text =
-            { Text(text = ADD_NOTE_SCREEN_TITLE, color = Color.White) },
-            onClick = {
-                navController.navigate(route = Screen.NoteAddScreen.route)
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(15.dp)
-        )
+        Row() {
+            ExtendedFloatingActionButton(
+                text =
+                { Text(text = ADD_NOTE_SCREEN_TITLE, color = Color.White) },
+                onClick = {
+                    navController.navigate(route = Screen.NoteAddScreen.route)
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(15.dp)
+            )
+        }
     }
 }
 
