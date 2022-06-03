@@ -1,28 +1,31 @@
 package com.example.jetpackcomposevisualnoteapp.features.screen.addnote
 
 
+import android.app.TimePickerDialog
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.ExtendedFloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Timer
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.jetpackcomposevisualnoteapp.common.Constants.ADD_NOTE_SCREEN_TITLE
+import com.example.jetpackcomposevisualnoteapp.common.Constants.NOTE_DESC_HINT
+import com.example.jetpackcomposevisualnoteapp.common.Constants.NOTE_IMAGE_HINT
+import com.example.jetpackcomposevisualnoteapp.common.Constants.NOTE_TITLE_HINT
 import com.example.jetpackcomposevisualnoteapp.data.model.NoteModel
 import com.example.jetpackcomposevisualnoteapp.features.components.NoteAddBar
+import com.example.jetpackcomposevisualnoteapp.features.components.NoteTopTitle
 import com.example.jetpackcomposevisualnoteapp.features.navigation.Screen
+import java.util.*
 
 @Composable
 fun NoteAddScreen(
@@ -38,22 +41,25 @@ fun NoteAddScreen(
     var noteUrlImage by remember {
         mutableStateOf("")
     }
+    val context = LocalContext.current
+    val calendar = Calendar.getInstance()
+    var hourState by remember { mutableStateOf(calendar[Calendar.HOUR_OF_DAY]) }
+    var minuteState by remember { mutableStateOf(calendar[Calendar.MINUTE]) }
+    val timePickerDialog = TimePickerDialog(
+        context,
+        { _, hour: Int, minute: Int ->
+            hourState = hour
+            minuteState = minute
+        }, hourState, minuteState, true
+    )
     Surface(
         color = Color.White,
         modifier = Modifier.fillMaxWidth()
     ) {
         Column() {
-            Text(
-                "Add Notes", modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(20.dp),
-                textAlign = TextAlign.Start,
-                fontSize = 30.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Gray
-            )
+            NoteTopTitle(ADD_NOTE_SCREEN_TITLE)
             NoteAddBar(
-                hint = "Note Title",
+                hint = NOTE_TITLE_HINT,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
@@ -62,7 +68,7 @@ fun NoteAddScreen(
             }
             Spacer(modifier = Modifier.height(10.dp))
             NoteAddBar(
-                hint = "Note Description",
+                hint = NOTE_DESC_HINT,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
@@ -71,7 +77,7 @@ fun NoteAddScreen(
             }
             Spacer(modifier = Modifier.height(10.dp))
             NoteAddBar(
-                hint = "Note Image Url",
+                hint = NOTE_IMAGE_HINT,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
@@ -79,7 +85,40 @@ fun NoteAddScreen(
                 noteUrlImage = it
             }
             Spacer(modifier = Modifier.height(10.dp))
-            FloatingButton(viewModel, navController, noteTitle, noteDesc, noteUrlImage)
+            val date = System.currentTimeMillis()
+            val noteModel = NoteModel(
+                noteUrlImage,
+                date,
+                noteTitle,
+                noteDesc,
+                hourState,
+                minuteState
+            )
+            FloatingButton(
+                viewModel,
+                navController,
+                noteModel
+            )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(15.dp),
+                verticalArrangement = Arrangement.Bottom,
+                horizontalAlignment = Alignment.End
+            ) {
+                IconButton(
+                    onClick = { timePickerDialog.show() }
+                ) {
+                    Icon(
+                        Icons.Filled.Timer,
+                        "contentDescription",
+                        tint = com.example.jetpackcomposevisualnoteapp.ui.theme.Color.Blue,
+                        modifier = Modifier
+                            .height(80.dp)
+                            .width(80.dp)
+                    )
+                }
+            }
         }
     }
 }
@@ -88,23 +127,13 @@ fun NoteAddScreen(
 fun FloatingButton(
     viewModel: AddNoteViewModel = hiltViewModel(),
     navController: NavController,
-    noteTitle: String,
-    noteDesc: String,
-    noteUrl: String
+    noteDetail: NoteModel
 ) {
     ExtendedFloatingActionButton(
         text =
-        { Text(text = "Add Note") },
-        icon = { Icon(Icons.Filled.Add, "") },
+        { Text(text = ADD_NOTE_SCREEN_TITLE, color = Color.White) },
         onClick = {
-            val date = System.currentTimeMillis()
-            val noteModel = NoteModel(
-                noteUrl,
-                date,
-                noteTitle,
-                noteDesc
-            )
-            viewModel.handleEvent(AddNoteUiEvent.AddNote(noteModel))
+            viewModel.handleEvent(AddNoteUiEvent.AddNote(noteDetail))
             navController.navigate(route = Screen.NoteListScreen.route)
         },
         modifier = Modifier
@@ -114,21 +143,7 @@ fun FloatingButton(
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun FloatingButton() {
-    ExtendedFloatingActionButton(
-        text =
-        { Text(text = "Add") },
-        icon = { Icon(Icons.Filled.Add, "ExtendedFloatingActionButton") },
-        onClick = {
-            Log.v("FloatingActionButton", "Clicked")
-        },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(15.dp)
-    )
-}
+
 
 
 
