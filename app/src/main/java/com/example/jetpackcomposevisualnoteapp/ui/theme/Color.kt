@@ -14,5 +14,9 @@ class Color {
     companion object {
         @Stable
         val Blue = Color(0xFF85F3E8)
+        @Stable
+        val Highlight = Color(0xFFB7E8F1)
+        @Stable
+        val Gray = Color(0xDAF7F7F7)
     }
 }
