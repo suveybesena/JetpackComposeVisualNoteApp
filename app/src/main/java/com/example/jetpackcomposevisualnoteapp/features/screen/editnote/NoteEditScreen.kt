@@ -1,25 +1,26 @@
 package com.example.jetpackcomposevisualnoteapp.features.screen.editnote
 
+import android.app.TimePickerDialog
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.ExtendedFloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Timer
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.jetpackcomposevisualnoteapp.common.Constants
+import com.example.jetpackcomposevisualnoteapp.common.Constants.DELETE_NOTE
+import com.example.jetpackcomposevisualnoteapp.common.Constants.EDIT_SCREEN_TITLE
 import com.example.jetpackcomposevisualnoteapp.data.model.NoteModel
 import com.example.jetpackcomposevisualnoteapp.features.components.NoteEditBar
+import com.example.jetpackcomposevisualnoteapp.features.components.NoteTopTitle
 import com.example.jetpackcomposevisualnoteapp.features.navigation.Screen
+import java.util.*
 
 @Composable
 fun NoteEditScreen(
@@ -37,23 +38,38 @@ fun NoteEditScreen(
     var noteImageUrl by remember {
         mutableStateOf(navArg.imageUrl)
     }
+    val context = LocalContext.current
+    val calendar = Calendar.getInstance()
+    var hourState by remember { mutableStateOf(calendar[Calendar.HOUR_OF_DAY]) }
+    var minuteState by remember { mutableStateOf(calendar[Calendar.MINUTE]) }
+    val timePickerDialog = TimePickerDialog(
+        context,
+        { _, hour: Int, minute: Int ->
+            hourState = hour
+            minuteState = minute
+        }, hourState, minuteState, true
+    )
+    val date = System.currentTimeMillis()
+    val editedTag = Constants.EDITED_TAG_TITLE
+    val noteModel = NoteModel(
+        noteImageUrl,
+        date,
+        noteTitle,
+        noteDesc,
+        hourState,
+        minuteState,
+        editedTag,
+        navArg.id
+    )
+
     Surface(
         color = Color.White,
         modifier = Modifier.fillMaxWidth()
     ) {
         Column {
-            Text(
-                "Edit Notes", modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(20.dp),
-                textAlign = TextAlign.Start,
-                fontSize = 30.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Gray
-            )
+            NoteTopTitle(EDIT_SCREEN_TITLE)
             Spacer(modifier = Modifier.height(10.dp))
             NoteEditBar(
-                hint = "Note Title",
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp), initialText = navArg.noteTitle!!
@@ -62,7 +78,6 @@ fun NoteEditScreen(
             }
             Spacer(modifier = Modifier.height(10.dp))
             NoteEditBar(
-                hint = "Note Description",
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp), initialText = navArg.noteDesc!!
@@ -71,7 +86,6 @@ fun NoteEditScreen(
             }
             Spacer(modifier = Modifier.height(10.dp))
             NoteEditBar(
-                hint = "Note Image Url",
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp), initialText = navArg.imageUrl!!
@@ -81,19 +95,8 @@ fun NoteEditScreen(
             Spacer(modifier = Modifier.height(10.dp))
             ExtendedFloatingActionButton(
                 text =
-                { Text(text = "Edit Note") },
-                icon = { Icon(Icons.Filled.Add, "") },
+                { Text(text = EDIT_SCREEN_TITLE, color = Color.White) },
                 onClick = {
-                    val date = System.currentTimeMillis()
-                    val editedTag = Constants.EDITED_TAG_TITLE
-                    val noteModel = NoteModel(
-                        noteImageUrl,
-                        date,
-                        noteTitle,
-                        noteDesc,
-                        editedTag,
-                        navArg.id
-                    )
                     viewModel.handleEvent(EditNoteUiEvent.UpdateNote(noteModel))
                     navController.navigate(Screen.NoteListScreen.route)
                 },
@@ -101,20 +104,11 @@ fun NoteEditScreen(
                     .fillMaxWidth()
                     .padding(15.dp)
             )
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(5.dp))
             ExtendedFloatingActionButton(
                 text =
-                { Text(text = "Delete Note") },
-                icon = { Icon(Icons.Filled.Add, "") },
+                { Text(text = DELETE_NOTE, color = Color.White) },
                 onClick = {
-                    val date = System.currentTimeMillis()
-                    val noteModel = NoteModel(
-                        noteImageUrl,
-                        date,
-                        noteTitle,
-                        noteDesc,
-                        id = navArg.id
-                    )
                     viewModel.handleEvent(EditNoteUiEvent.DeleteNote(noteModel))
                     navController.navigate(route = Screen.NoteListScreen.route)
                 },
@@ -122,6 +116,24 @@ fun NoteEditScreen(
                     .fillMaxWidth()
                     .padding(15.dp)
             )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(15.dp),
+                verticalArrangement = Arrangement.Bottom,
+                horizontalAlignment = Alignment.End
+            ) {
+                IconButton(onClick = { timePickerDialog.show() }) {
+                    Icon(
+                        Icons.Filled.Timer,
+                        "contentDescription",
+                        tint = com.example.jetpackcomposevisualnoteapp.ui.theme.Color.Blue,
+                        modifier = Modifier
+                            .height(80.dp)
+                            .width(80.dp)
+                    )
+                }
+            }
         }
     }
 }
