@@ -13,9 +13,9 @@ val Pink = Color(0xFFD68680)
 class Color {
     companion object {
         @Stable
-        val Blue = Color(0xFF85F3E8)
+        val Blue = Color(0xFFBDDFD6)
         @Stable
-        val Highlight = Color(0xFFB7E8F1)
+        val Highlight = Color(0xFFBDDFD6)
         @Stable
         val Gray = Color(0xDAF7F7F7)
     }
