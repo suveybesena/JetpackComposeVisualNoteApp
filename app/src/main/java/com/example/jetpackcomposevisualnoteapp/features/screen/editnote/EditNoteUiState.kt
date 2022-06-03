@@ -1,5 +1,4 @@
-package com.example.jetpackcomposevisualnoteapp.presentation.edit
-
+package com.example.jetpackcomposevisualnoteapp.features.screen.editnote
 
 
 data class EditNoteUiState(
