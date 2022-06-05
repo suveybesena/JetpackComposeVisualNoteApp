@@ -8,7 +8,6 @@ Technologies I use in this app;
   <li>Flow</li>
   <li>Dependency Injection(Hilt)</li>
   <li>Coil</li>
-  <li>View Binding</li>
   <li>Jetpack Compose</li>
 </ul>
 
