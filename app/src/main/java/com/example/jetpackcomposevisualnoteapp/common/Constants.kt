@@ -14,6 +14,7 @@ object Constants {
     const val DB_NAME = "notes_db"
     const val NULL_ERROR_MESSAGE = "This fields cannot be empty."
     const val PARCELABLE_ARGS_ID = "noteModelArg"
+    const val STRING_ARGS_ID = "imageUri"
     const val EDIT_SCREEN_TITLE = "Edit Note"
     const val DELETE_NOTE = "Delete Note"
     const val NOTES_LIST_SCREEN_TITLE = "Notes"
