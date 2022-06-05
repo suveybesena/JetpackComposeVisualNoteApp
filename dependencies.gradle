@@ -47,7 +47,11 @@ ext {
     def testCoroutinesVersion = "1.5.2"
     def testTruthVersion = "1.1.3"
     def testMockitoVersion = "3.8.0"
-    def androidTestArchCore ="2.1.0"
+    def androidTestArchCore = "2.1.0"
+    def skydovesGlide = "1.5.2"
+    def composeVersion = "1.2.0-beta02"
+    def coilVersion = "1.3.2"
+    def hiltNavCompose = "1.0.0"
 
     classPaths = [
             gradlePath      : "com.android.tools.build:gradle:$gradleVersion",
@@ -74,7 +78,8 @@ ext {
     ]
 
     google = [
-            material: "com.google.android.material:material:$materialVersion"
+            material            : "com.google.android.material:material:$materialVersion",
+            composeMaterialIcons: "androidx.compose.material:material-icons-extended$composeVersion"
     ]
     kotlin = [
             kotlinxCoroutinesAndroid: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinxCoroutinesAndroidVersion",
@@ -85,7 +90,8 @@ ext {
             hiltAndroid            : "com.google.dagger:hilt-android:$hiltAndroidVersion",
             kaptHiltAndroidCompiler: "com.google.dagger:hilt-android-compiler:$kaptHiltAndroidCompilerVersion",
             kaptHiltCompiler       : "androidx.hilt:hilt-compiler:$kaptHiltCompilerVersion",
-            hiltViewModel          : "androidx.hilt:hilt-lifecycle-viewmodel:$hiltLifecycleViewModelVersion"
+            hiltViewModel          : "androidx.hilt:hilt-lifecycle-viewmodel:$hiltLifecycleViewModelVersion",
+            hiltNavCompose         : "androidx.hilt:hilt-navigation-compose:$hiltNavCompose"
     ]
     androidTesting = [
             androidTestJUnit         : "junit:junit:$androidTestJUnitVersion",
@@ -118,6 +124,8 @@ ext {
     others = [
             glide        : "com.github.bumptech.glide:glide:$glideVersion",
             glideCompiler: "com.github.bumptech.glide:compiler:$glideCompilerVersion",
+            skydoves     : "com.github.skydoves:landscapist-glide:$skydovesGlide",
+            coil         : "io.coil-kt:coil-compose:$coilVersion"
     ]
 }
 
