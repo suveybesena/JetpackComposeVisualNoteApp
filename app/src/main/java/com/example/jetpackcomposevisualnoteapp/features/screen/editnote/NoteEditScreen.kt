@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.jetpackcomposevisualnoteapp.common.Constants
-import com.example.jetpackcomposevisualnoteapp.common.Constants.DELETE_NOTE
 import com.example.jetpackcomposevisualnoteapp.common.Constants.EDIT_SCREEN_TITLE
 import com.example.jetpackcomposevisualnoteapp.data.model.NoteModel
 import com.example.jetpackcomposevisualnoteapp.features.components.NoteEditBar
@@ -27,7 +26,6 @@ fun NoteEditScreen(
     navController: NavController,
     navArg: NoteModel,
     viewModel: NoteEditViewModel = hiltViewModel()
-
 ) {
     var noteTitle by remember {
         mutableStateOf(navArg.noteTitle)
@@ -58,7 +56,9 @@ fun NoteEditScreen(
         noteDesc,
         hourState,
         minuteState,
+        editedTag =
         editedTag,
+        id =
         navArg.id
     )
 
@@ -99,18 +99,6 @@ fun NoteEditScreen(
                 onClick = {
                     viewModel.handleEvent(EditNoteUiEvent.UpdateNote(noteModel))
                     navController.navigate(Screen.NoteListScreen.route)
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(15.dp)
-            )
-            Spacer(modifier = Modifier.height(5.dp))
-            ExtendedFloatingActionButton(
-                text =
-                { Text(text = DELETE_NOTE, color = Color.White) },
-                onClick = {
-                    viewModel.handleEvent(EditNoteUiEvent.DeleteNote(noteModel))
-                    navController.navigate(route = Screen.NoteListScreen.route)
                 },
                 modifier = Modifier
                     .fillMaxWidth()
