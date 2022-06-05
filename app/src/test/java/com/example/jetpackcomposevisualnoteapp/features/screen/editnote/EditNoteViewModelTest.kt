@@ -37,7 +37,6 @@ class EditNoteViewModelTest {
     fun setup() {
         editNoteViewModel =
             NoteEditViewModel(
-                DeleteNoteFromLocalUseCase(FakeNoteRepositoryImpl(), testDispatcher),
                 UpdateNoteFromLocalUseCase(FakeNoteRepositoryImpl(), testDispatcher),
             )
         Dispatchers.setMain(testDispatcher)
