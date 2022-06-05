@@ -45,3 +45,4 @@ fun JetpackComposeVisualNoteAppTheme(
         content = content
     )
 }
+
