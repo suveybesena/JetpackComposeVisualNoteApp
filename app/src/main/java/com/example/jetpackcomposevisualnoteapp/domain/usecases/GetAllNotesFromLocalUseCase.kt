@@ -14,7 +14,7 @@ class GetAllNotesFromLocalUseCase @Inject constructor(
 ) {
     suspend fun invoke() = flow {
         emit(Resource.Loading(true))
-        kotlinx.coroutines.delay(2000)
+        kotlinx.coroutines.delay(1000)
         emit(Resource.Loading(false))
         try {
             val allNotes = noteRepository.getAllNotes()
