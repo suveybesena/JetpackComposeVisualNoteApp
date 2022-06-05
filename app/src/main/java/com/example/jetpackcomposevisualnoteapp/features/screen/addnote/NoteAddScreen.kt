@@ -2,18 +2,16 @@ package com.example.jetpackcomposevisualnoteapp.features.screen.addnote
 
 
 import android.app.TimePickerDialog
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Timer
+import androidx.compose.material.icons.outlined.FormatPaint
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -29,6 +27,7 @@ import java.util.*
 
 @Composable
 fun NoteAddScreen(
+    navArg: String?,
     viewModel: AddNoteViewModel = hiltViewModel(),
     navController: NavController
 ) {
@@ -38,9 +37,11 @@ fun NoteAddScreen(
     var noteDesc by remember {
         mutableStateOf("")
     }
+
     var noteUrlImage by remember {
         mutableStateOf("")
     }
+
     val context = LocalContext.current
     val calendar = Calendar.getInstance()
     var hourState by remember { mutableStateOf(calendar[Calendar.HOUR_OF_DAY]) }
@@ -86,19 +87,36 @@ fun NoteAddScreen(
             }
             Spacer(modifier = Modifier.height(10.dp))
             val date = System.currentTimeMillis()
-            val noteModel = NoteModel(
-                noteUrlImage,
-                date,
-                noteTitle,
-                noteDesc,
-                hourState,
-                minuteState
-            )
-            FloatingButton(
-                viewModel,
-                navController,
-                noteModel
-            )
+            if (navArg.isNullOrBlank()) {
+                val noteModel = NoteModel(
+                    noteUrlImage,
+                    date,
+                    noteTitle,
+                    noteDesc,
+                    hourState,
+                    minuteState
+                )
+                FloatingButton(
+                    viewModel,
+                    navController,
+                    noteModel
+                )
+            } else {
+                val noteModel = NoteModel(
+                    navArg,
+                    date,
+                    noteTitle,
+                    noteDesc,
+                    hourState,
+                    minuteState
+                )
+                FloatingButton(
+                    viewModel,
+                    navController,
+                    noteModel
+                )
+            }
+
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -112,6 +130,19 @@ fun NoteAddScreen(
                     Icon(
                         Icons.Filled.Timer,
                         "contentDescription",
+                        tint = com.example.jetpackcomposevisualnoteapp.ui.theme.Color.Blue,
+                        modifier = Modifier
+                            .height(80.dp)
+                            .width(80.dp)
+                    )
+                }
+
+                IconButton(
+                    onClick = { navController.navigate(Screen.DrawingScreen.route) }
+                ) {
+                    Icon(
+                        Icons.Outlined.FormatPaint,
+                        "drawing button",
                         tint = com.example.jetpackcomposevisualnoteapp.ui.theme.Color.Blue,
                         modifier = Modifier
                             .height(80.dp)
