@@ -19,9 +19,9 @@ data class NoteModel(
     @ColumnInfo(name = Constants.LOCAL_DB_NOTE_DESC)
     val noteDesc: String?,
     @ColumnInfo(name = Constants.LOCAL_DB_NOTE_HOUR)
-    val noteHour : Int?,
+    val noteHour: Int?,
     @ColumnInfo(name = Constants.LOCAL_DB_NOTE_MIN)
-    val noteMin:Int?,
+    val noteMin: Int?,
     @ColumnInfo(name = Constants.EDITED_TAG)
     val editedTag: String? = null,
     @PrimaryKey(autoGenerate = true)
