@@ -4,10 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExtendedFloatingActionButton
-import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -18,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.jetpackcomposevisualnoteapp.common.Constants
 import com.example.jetpackcomposevisualnoteapp.common.Constants.ADD_NOTE_SCREEN_TITLE
 import com.example.jetpackcomposevisualnoteapp.common.Constants.NOTES_LIST_SCREEN_TITLE
 import com.example.jetpackcomposevisualnoteapp.features.components.NoteListShimmer
@@ -29,8 +28,7 @@ fun NoteListScreen(viewModel: NotesListViewModel = hiltViewModel(), navControlle
     val noteListState = viewModel.uiState.value
     Column(
         modifier = Modifier
-            .fillMaxHeight()
-            .background(color = com.example.jetpackcomposevisualnoteapp.ui.theme.Color.Gray),
+            .fillMaxHeight(),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         Column {
@@ -61,7 +59,7 @@ fun NoteListScreen(viewModel: NotesListViewModel = hiltViewModel(), navControlle
                     NoteListShimmer()
                 }
             } else {
-                NoteList(navController, noteListState)
+                NoteList(navController, noteListState, viewModel)
             }
 
         }
@@ -70,6 +68,10 @@ fun NoteListScreen(viewModel: NotesListViewModel = hiltViewModel(), navControlle
                 text =
                 { Text(text = ADD_NOTE_SCREEN_TITLE, color = Color.White) },
                 onClick = {
+                    navController.currentBackStackEntry?.savedStateHandle?.set(
+                        Constants.STRING_ARGS_ID,
+                        ""
+                    )
                     navController.navigate(route = Screen.NoteAddScreen.route)
                 },
                 modifier = Modifier
@@ -83,12 +85,14 @@ fun NoteListScreen(viewModel: NotesListViewModel = hiltViewModel(), navControlle
 @Composable
 fun NoteList(
     navController: NavController,
-    noteListState: NotesListUiState
+    noteListState: NotesListUiState,
+    viewModel: NotesListViewModel = hiltViewModel()
 ) {
     noteListState.notesList?.let {
         NoteListView(
             notes = it,
-            navController = navController
+            navController = navController,
+            viewModel
         )
     }
 }
