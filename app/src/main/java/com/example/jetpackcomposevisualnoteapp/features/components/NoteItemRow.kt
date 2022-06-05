@@ -7,7 +7,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -16,12 +15,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jetpackcomposevisualnoteapp.R
 import com.example.jetpackcomposevisualnoteapp.data.model.NoteModel
 import com.example.jetpackcomposevisualnoteapp.ui.theme.Color
+import me.saket.swipe.SwipeAction
+import me.saket.swipe.SwipeableActionsBox
 import java.text.DateFormat
 import java.util.*
 
@@ -29,7 +31,9 @@ import java.util.*
 @Composable
 fun NoteItemRow(
     noteDetail: NoteModel,
-    onNoteClicked: (NoteModel?) -> Unit
+    onNoteClicked: (NoteModel?) -> Unit,
+    onEditSwipe: (NoteModel?) -> Unit,
+    onDeleteSwipe: (NoteModel?) -> Unit,
 ) {
     var isShortText by remember { mutableStateOf(false) }
     val shortText = "Long press for detailed view."
@@ -40,10 +44,23 @@ fun NoteItemRow(
         if (isGray) Color.Highlight else androidx.compose.ui.graphics.Color.White,
         animationSpec = tween(durationMillis = 1500)
     )
+    val delete = SwipeAction(
+        icon = painterResource(R.drawable.ic_delete),
+        background = Color.Red,
+        isUndo = true,
+        onSwipe = { onDeleteSwipe(noteDetail) },
+    )
 
-    Card(
-        modifier = Modifier
-            .padding(5.dp)
+    val edit = SwipeAction(
+        icon = painterResource(R.drawable.ic_edit),
+        background = Color.Orange,
+        isUndo = true,
+        onSwipe = { onEditSwipe(noteDetail) },
+    )
+
+    SwipeableActionsBox(
+        startActions = listOf(edit),
+        endActions = listOf(delete)
     ) {
         Row(modifier = Modifier
             .fillMaxWidth()
@@ -64,7 +81,7 @@ fun NoteItemRow(
                     .padding(5.dp)
                     .clip(shape = RoundedCornerShape(15)),
                 placeholder = R.drawable.ic_error,
-                contentScale = ContentScale.Crop,
+                contentScale = ContentScale.Crop
             )
             Spacer(modifier = Modifier.width(10.dp))
             Box {
