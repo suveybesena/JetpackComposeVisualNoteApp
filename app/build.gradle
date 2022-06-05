@@ -70,6 +70,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07"
     implementation "androidx.navigation:navigation-compose:2.4.0-alpha08"
     implementation "androidx.constraintlayout:constraintlayout-compose:1.0.0-beta02"
+    implementation 'androidx.datastore:datastore-preferences:1.0.0'
 
     implementation androidx.coreKtx
     implementation androidx.appCompat
@@ -114,6 +115,7 @@ dependencies {
 
     // Material Design
     implementation google.material
+    implementation "androidx.compose.material:material-icons-extended:$compose_version"
 
     // Navigation Component
     implementation androidx.navigationUi
@@ -143,4 +145,15 @@ dependencies {
     implementation hilt.hiltViewModel
     kapt hilt.kaptHiltCompiler
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
+
+    //Swipe
+    implementation "me.saket.swipe:swipe:1.0.0"
+    // capture
+    implementation "dev.shreyaspatil:capturable:1.0.1"
+    //uri
+    implementation 'com.blankj:utilcodex:1.30.6'
+
+    implementation 'com.google.accompanist:accompanist-permissions:0.21.1-beta'
+    implementation 'androidx.activity:activity-compose:1.3.0-alpha06'
+
 }
